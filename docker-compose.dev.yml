@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app_dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: nestjs_app_dev
+    env_file:
+      - .env
+    ports:
+      - "${PORT_APP_DEV}:3000"
+    depends_on:
+      - mongo_dev
+    environment:
+      MONGO_URI: ${MONGO_URI_DEV}
+    volumes:
+      - .:/usr/src/app
+    command: pnpm run start:dev
+
+  mongo_dev:
+    image: mongo:latest
+    container_name: mongodb_dev
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME_DEV}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD_DEV}
+    ports:
+      - "${PORT_DB_DEV}:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongo --eval 'db.adminCommand(\"ping\")' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  mongo-data:
