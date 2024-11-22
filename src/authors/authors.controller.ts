@@ -26,6 +26,11 @@ export class AuthorsController {
   }
 
   @Get()
+  @ApiResponse({
+    status: 201,
+    description: 'Lista de autores',
+    type: [AuthorDetailsResponseDto],
+  })
   async findAll(): Promise<AuthorDetailsResponseDto[]> {
     return this.authorsService.findAll();
   }

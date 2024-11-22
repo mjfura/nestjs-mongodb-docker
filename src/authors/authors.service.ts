@@ -46,16 +46,4 @@ export class AuthorsService {
 
     return authorsWithBooks;
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
-  }
-
-  // update(id: number, updateAuthorDto: UpdateAuthorDto) {
-  //   return `This action updates a #${id} author`;
-  // }
-
-  remove(id: number) {
-    return `This action removes a #${id} author`;
-  }
 }
